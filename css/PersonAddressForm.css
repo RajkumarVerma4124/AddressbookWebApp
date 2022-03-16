@@ -290,10 +290,10 @@ select {
     transition-duration: 0.5s;
 }
 
-validate {
+.error {
     margin-left: 10px;
     font-size: 12px;
-    font-style: italic;
+    font: Robot;
     color: red;
 }
 

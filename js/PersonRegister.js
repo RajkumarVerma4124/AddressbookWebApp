@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     //Checking whether contact details is proper using regex(UC4)
     const name = document.querySelector('#fullName');
     const nameError = document.querySelector('#errorName');
-    name.addEventListener('input', () => {
+    name.addEventListener('input', function() {
         if (name.value.length == 0) {
             nameError.textContent = '';
             return;

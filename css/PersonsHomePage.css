@@ -83,3 +83,150 @@ a {
     animation-name: bounce;
     -moz-animation-name: bounce;
 }
+
+
+/*Defined css for add button and form title */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    padding: 30px 0 10px;
+    box-sizing: border-box;
+}
+
+.inner-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 25px;
+}
+
+.emp-detail-text {
+    font-style: normal;
+    font-variant: normal;
+    font-family: Roboto;
+    font-weight: bolder;
+    font-size: 28px;
+    line-height: 25px;
+    color: #42515F;
+    margin-left: 10px;
+}
+
+.add-button {
+    font: normal normal normal 22px/29px Roboto;
+    letter-spacing: 0px;
+    color: white;
+    opacity: 1;
+    background-color: #008CFF;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 18px;
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+}
+
+.add-button:hover {
+    box-shadow: 0px 0px 15px #008CFF;
+    transform: scale(1.01);
+    transition-duration: 0.5s;
+}
+
+.icons {
+    width: 20px;
+    justify-content: center;
+}
+
+
+/*Defined css for header section and tabular format*/
+
+.table-main {
+    width: 80%;
+    margin: 0 auto;
+    overflow-y: hidden;
+    border-radius: 5px;
+}
+
+.table {
+    width: 100%;
+    border-spacing: 0 5px;
+    min-width: 800px;
+}
+
+td,
+th {
+    text-align: center;
+    padding: 8px 8px;
+    padding-left: 20px;
+}
+
+th {
+    text-align: center;
+    font: normal normal normal 18px/24px Roboto;
+    letter-spacing: 0.3px;
+    color: #658292;
+    text-transform: uppercase;
+    border: 0px solid #dddddd;
+    opacity: 1;
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+th:hover {
+    color: #008CFF;
+    font-weight: 700;
+    transition-duration: 0.1s;
+}
+
+tr:not(:first-child) {
+    background: #ffffff;
+    border: 1px solid #e3e3e3;
+    padding: 8px;
+    border-radius: 3px;
+}
+
+tr:not(:first-child):hover {
+    box-shadow: 0px 0px 15px #008CFF;
+    transform: scale(1.0001);
+    transition-duration: 0.5s;
+}
+
+td {
+    font-weight: 600;
+    color: #3D3D3D;
+    background: #ffffff;
+    font: normal normal normal 14px/21px Roboto;
+    letter-spacing: 0.1px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.td-icon img:first-child {
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.td-icon img {
+    cursor: pointer;
+    width: 18%;
+    height: 18%;
+}
+
+
+/*Defining media query(UC7)*/
+
+@media only screen and (max-width: 590px) {
+    .inner-header-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .add-button {
+        margin-top: 20px;
+    }
+}

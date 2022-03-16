@@ -27,6 +27,15 @@ body {
     line-height: 1;
 }
 
+a {
+    text-decoration: none;
+    font: normal normal bold 20px/25px Roboto;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    color: #008CFF;
+    line-height: 20px;
+}
+
 .header-text span:nth-child(2) {
     color: #42515F;
 }

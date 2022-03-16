@@ -42,3 +42,14 @@ const createTableContents = () => {
     }
     document.querySelector('#display-table').innerHTML = tableContents;
 }
+
+//Remove employee from Local Storage
+var remove = (employee) => {
+    let employeePayrollData = contactDetailsList.find(empData => empData._fullName == employee.id);
+    if (!employeePayrollData) return;
+    var index = contactDetailsList.map(empData => empData._fullName)
+        .indexOf(employeePayrollData._fullName);
+    contactDetailsList.splice(index, 1);
+    localStorage.setItem("ContactList", JSON.stringify(contactDetailsList));
+    createTableContents();
+}

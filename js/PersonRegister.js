@@ -1,3 +1,7 @@
+//Variable to check whether page is for create or update(UC9)
+let isUpdate = false;
+let contactPersonObj = {};
+
 //Javascript to validate the contact details(UC4)
 window.addEventListener("DOMContentLoaded", (event) => {
     //Checking whether contact details is proper using regex(UC4)
@@ -48,33 +52,108 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
+    //Calling the function to check update for contact(UC9)
+    checkForUpdate();
 });
 
-//Create contact object on submit(UC5)
-const save = () => {
-    try {
+//Checks whether updation is needed
+var checkForUpdate = () => {
+    var contactPersonJSON = localStorage.getItem('editContact');
+    isUpdate = contactPersonJSON ? true : false;
+    if (!isUpdate) return;
+    contactPersonObj = JSON.parse(contactPersonJSON);
+    setForm();
+}
 
-        let contactPersonDetails = onSubmit();
-        if (contactPersonDetails.length != 0) {
-            createAndUpdateStorage(contactPersonDetails);
-            alert("Added the data into local storage succesfully")
-        }
+//Arrow function to set the updated values
+const setForm = () => {
+    setValue('#fullName', contactPersonObj._fullName);
+    let phoneNo = contactPersonObj._phoneNumber.split(" ")
+    setValue('#countryCode', phoneNo[0])
+    setValue('#phoneNumber', phoneNo[1]);
+    setValue('#address', contactPersonObj._address);
+    setValue('#city', contactPersonObj._city);
+    setValue('#state', contactPersonObj._state);
+    setValue('#zip', contactPersonObj._zip);
+}
+
+//Create contact object on submit and save that object on local storage(UC5 && UC9)
+const save = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    try {
+        setContactPersonObject();
+        createAndUpdateStorage();
+        resetForm();
+        alert("Added the data into local storage succesfully")
+        window.location.replace(site_properties.home_page);
     } catch (e) {
         return;
     }
 }
 
+//Arrow function to set the object with values filled by user(UC9)
+const setContactPersonObject = () => {
+    let phone = document.querySelector('#phoneNumber');
+    const countryCode = document.querySelector('#countryCode');
+    contactPersonObj._fullName = getInputValueById("#fullName");
+    let phoneNum = countryCode.value + " " + phone.value;
+    contactPersonObj._phoneNumber = phoneNum;
+    contactPersonObj._address = getInputValueById("#address");
+    contactPersonObj._city = getInputValueById("#city");
+    contactPersonObj._state = getInputValueById("#state");
+    contactPersonObj._zip = getInputValueById("#zip");
+}
+
 //Storing contact object in local storage
-function createAndUpdateStorage(contactPersonDetails) {
+const createAndUpdateStorage = () => {
     let ContactList = JSON.parse(localStorage.getItem("ContactList"));
-    if (ContactList != undefined) {
-        ContactList.push(contactPersonDetails);
+    if (ContactList) {
+        let contactPersonDetails = ContactList.find(contact => contact._id == contactPersonObj._id);
+        if (!contactPersonDetails) {
+            ContactList.push(createNewContact());
+        } else {
+            let index = ContactList.map(contact => contact._id).indexOf(contactPersonDetails._id);
+            ContactList.splice(index, 1, createNewContact(contactPersonDetails._id));
+        }
     } else {
-        ContactList = [contactPersonDetails];
+        ContactList = [createNewContact()];
     }
     alert(ContactList.toString());
+    //JSON to String
     localStorage.setItem("ContactList", JSON.stringify(ContactList));
 }
+
+//Arrow function to check whether id is present or not(UC9) 
+const createNewContact = (id) => {
+    let contactPersonDetails = new ContactPerson();
+    if (!id) contactPersonDetails.id = createContactId();
+    else contactPersonDetails.id = id;
+    setContact(contactPersonDetails);
+    return contactPersonDetails;
+}
+
+//Arrow function to create id for contact(UC9) 
+const createContactId = () => {
+    let contactId = localStorage.getItem("ContactId");
+    contactId = !contactId ? 1 : (parseInt(contactId) + 1).toString();
+    localStorage.setItem("ContactId", contactId);
+    return contactId;
+}
+
+//Arrow function to create id for contact(UC9) 
+const setContact = (contact) => {
+    try {
+        contact.fullName = contactPersonObj._fullName;
+        contact.phoneNumber = contactPersonObj._phoneNumber;
+        contact.address = contactPersonObj._address;
+        contact.city = contactPersonObj._city;
+        contact.state = contactPersonObj._state;
+        contact.zip = contactPersonObj._zip;
+    } catch (e) {
+        alert(e);
+    }
+};
 
 //Validating Name phone number and zip code
 const onSubmit = () => {
@@ -127,6 +206,9 @@ const resetForm = () => {
     setTextValue('#errorPhoneNumber', '');
     setValue('#zip', '');
     setTextValue('#errorzipCode', '');
+    setValue('#address', '');
+    setValue('#city', '');
+    setValue('#state', '');
 }
 
 //Arrow function for reset the values(UC13)
